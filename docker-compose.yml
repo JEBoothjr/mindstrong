@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./config:/home/node/app/config
+      - ./src:/home/node/app/src
+      - ./nodemon.json:/home/node/app/nodemon.json
+    container_name: mindstrong_app
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    command: npm run dev
+    networks:
+      - mindstrong
+    depends_on:
+      - mongodb
+    environment:
+      - DEBUG=mindstrong:index,mindstrong:routes:*
+      - DEBUG_HIDE_DATE=true
+      - DEBUG_COLORS=true
+  mongodb:
+    image: mongo:4.4.6
+    ports:
+      - '27017:27017'
+    container_name: mindstrong_database
+    volumes:
+      - ./data/db:/data/db
+    networks:
+      - mindstrong
+    logging:
+      driver: none
+networks:
+  mindstrong:
+    driver: bridge
