@@ -15,8 +15,10 @@
 # Seed the DB
 
 > sh ./tools/seeds/conditions.sh
-> 
+>
 > sh ./tools/seeds/records.sh
+>
+> sh ./tools/seeds/users.sh
 
 # API
 
@@ -72,3 +74,9 @@
 > `This isn't needed for the exercise.`
 > 
 > GET http://localhost:3000/conditions?start={PREVIOUS_CONDITION_ID}&count=n
+
+## Users
+
+> `Creates users in the db. Also used to seed the DB.`
+> 
+> POST http://localhost:3000/users
