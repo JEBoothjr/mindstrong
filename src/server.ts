@@ -6,8 +6,11 @@ import config from 'config';
 
 import { App } from "./app";
 
+import { jwt } from "./api/middleware/jwt";
+
 import { RecordRoutes } from './api/record/record.routes';
 import { ConditionRoutes } from './api/condition/condition.routes';
+import { UserRoutes } from './api/user/user.routes';
 import { HealthRoutes } from './api/health/health.routes';
 
 const initializeApplication = async (): Promise<void> => {
@@ -15,10 +18,14 @@ const initializeApplication = async (): Promise<void> => {
 
   const app = new App(
     config.get('server.port'),
-    [ express.json() ],
+    [
+      express.json(),
+      jwt
+    ],
     [
       RecordRoutes,
       ConditionRoutes,
+      UserRoutes,
       HealthRoutes
     ]
   );

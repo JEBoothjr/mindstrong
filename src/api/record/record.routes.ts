@@ -7,6 +7,8 @@ export const RecordRoutes = express.Router();
 import { RecordController } from './record.controller';
 const controller = new RecordController();
 
+import { AuthRequest } from '../middleware/auth.request';
+
 const BASE = '/records';
 
 RecordRoutes.get(`${BASE}`, async (req: express.Request, res: express.Response) => {
@@ -43,7 +45,7 @@ RecordRoutes.post(`${BASE}/:recordId/conditions`, async (req: express.Request, r
   debug(req.body);
 
   try{
-    let result = await controller.addConditions(req.params.recordId, req.body);
+    let result = await controller.addConditions(req.params.recordId, (req as AuthRequest).user, req.body);
     res.status(200).send(result);
   }catch(err){
     debug(err);
